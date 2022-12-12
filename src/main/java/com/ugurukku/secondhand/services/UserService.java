@@ -1,5 +1,6 @@
 package com.ugurukku.secondhand.services;
 
+import com.ugurukku.secondhand.dto.CreateUserRequest;
 import com.ugurukku.secondhand.models.User;
 import com.ugurukku.secondhand.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,21 @@ public class UserService {
         return null;
     }
 
-    public User update(CreateUserRequest createUserRequest, Long id) {
-return null;
+    public User update(UpdateUserRequest createUserRequest, Long id) {
+        return null;
     }
+
+    public User deactivate(Long id) {
+        User user = userRepository.findById(id).get();
+        userRepository.deleteById(id);
+        return user;
+    }
+
+    public User delete(Long id) {
+        User user = userRepository.findById(id).get();
+        userRepository.deleteById(id);
+        return user;
+    }
+
 }
 

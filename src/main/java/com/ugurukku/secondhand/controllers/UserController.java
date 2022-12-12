@@ -1,5 +1,6 @@
 package com.ugurukku.secondhand.controllers;
 
+import com.ugurukku.secondhand.dto.CreateUserRequest;
 import com.ugurukku.secondhand.models.User;
 import com.ugurukku.secondhand.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,16 @@ public class UserController {
         return ResponseEntity.ok(userService.update(updateUserRequest,id));
     }
 
-    
+    @PatchMapping("/{id}")
+    public ResponseEntity<User> deactivateUser(@PathVariable("id") Long id) {
+    return ResponseEntity.ok(userService.deactivate(id));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable("id") Long id){
+        return ResponseEntity.ok(userService.delete(id));
+    }
+
+
 }
