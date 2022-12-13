@@ -6,8 +6,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity
-data class User(
-
+data class User constructor(
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?,
@@ -15,4 +14,6 @@ data class User(
     val firstName: String?,
     val lastname: String?,
     val postCode: String?
-)
+) {
+    constructor() : this(null,null,null,null,null)
+}

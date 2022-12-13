@@ -2,6 +2,7 @@ package com.ugurukku.secondhand.controllers;
 
 import com.ugurukku.secondhand.dto.CreateUserRequest;
 import com.ugurukku.secondhand.dto.UpdateUserRequest;
+import com.ugurukku.secondhand.dto.UserDto;
 import com.ugurukku.secondhand.models.User;
 import com.ugurukku.secondhand.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAll());
     }
 

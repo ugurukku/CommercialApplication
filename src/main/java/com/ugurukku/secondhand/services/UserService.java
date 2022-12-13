@@ -9,9 +9,10 @@ import com.ugurukku.secondhand.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class  UserService {
 
     private final UserRepository userRepository;
 
@@ -23,7 +24,7 @@ public class UserService {
     }
 
     public List<UserDto> getAll() {
-        return userRepository.findAll();
+        return userRepository.findAll().stream().map(userDtoConverter::convert).collect(Collectors.toList());
     }
 
     public User getById(Long id) {

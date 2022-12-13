@@ -9,4 +9,5 @@ public class UserDtoConverter {
     public UserDto convert(User from) {
         return new UserDto(from.getEmail(), from.getFirstName(), from.getLastname(), from.getPostCode());
     }
+
 }
