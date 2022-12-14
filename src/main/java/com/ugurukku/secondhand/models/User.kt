@@ -12,7 +12,7 @@ data class User constructor(
     val id: Long?,
     val email: String?,
     val firstName: String?,
-    val lastname: String?,
+    val lastName: String?,
     val postCode: String?
 ) {
     constructor() : this(null,null,null,null,null)

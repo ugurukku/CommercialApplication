@@ -4,6 +4,7 @@ import com.ugurukku.secondhand.dto.CreateUserRequest;
 import com.ugurukku.secondhand.dto.UpdateUserRequest;
 import com.ugurukku.secondhand.dto.UserDto;
 import com.ugurukku.secondhand.dto.UserDtoConverter;
+import com.ugurukku.secondhand.exceptions.UserNotFoundException;
 import com.ugurukku.secondhand.models.User;
 import com.ugurukku.secondhand.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class  UserService {
+public class UserService {
 
     private final UserRepository userRepository;
 
@@ -27,28 +28,50 @@ public class  UserService {
         return userRepository.findAll().stream().map(userDtoConverter::convert).collect(Collectors.toList());
     }
 
-    public User getById(Long id) {
-        return userRepository.findById(id).get();
+    public UserDto getById(Long id) {
+        return userDtoConverter.convert(findUserById(id));
     }
 
-    public User add(CreateUserRequest createUserRequest) {
-        return userRepository.save(createUserRequest);
+    public UserDto add(CreateUserRequest createUserRequest) {
+        User user = new User(
+                null,
+                createUserRequest.getEmail(),
+                createUserRequest.getFirstName(),
+                createUserRequest.getLastname(),
+                createUserRequest.getPostCode()
+        );
+        return userDtoConverter.convert(userRepository.save(user));
     }
 
-    public User update(UpdateUserRequest createUserRequest, Long id) {
-        return null;
+    public UserDto update(UpdateUserRequest updateUserRequest, Long id) {
+        User user = findUserById(id);
+        User updatedUser =
+                new User(
+                        user.getId(),
+                        user.getEmail(),
+                        updateUserRequest.getFirstName(),
+                        updateUserRequest.getLastname(),
+                        user.getPostCode());
+
+        return userDtoConverter.convert(userRepository.save(updatedUser));
     }
 
-    public User deactivate(Long id) {
-        User user = userRepository.findById(id).get();
+    public UserDto deactivate(Long id) {
+        User user = findUserById(id);
         userRepository.deleteById(id);
-        return user;
+        return userDtoConverter.convert(user);
     }
 
-    public User delete(Long id) {
-        User user = userRepository.findById(id).get();
+    public UserDto delete(Long id) {
+        User user = findUserById(id);
         userRepository.deleteById(id);
-        return user;
+        return userDtoConverter.convert(user);
+    }
+
+    private User findUserById(Long id) {
+        return userRepository
+                .findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found!"));
     }
 
 }

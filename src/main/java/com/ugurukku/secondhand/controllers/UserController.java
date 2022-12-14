@@ -3,7 +3,6 @@ package com.ugurukku.secondhand.controllers;
 import com.ugurukku.secondhand.dto.CreateUserRequest;
 import com.ugurukku.secondhand.dto.UpdateUserRequest;
 import com.ugurukku.secondhand.dto.UserDto;
-import com.ugurukku.secondhand.models.User;
 import com.ugurukku.secondhand.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,28 +26,28 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest createUserRequest) {
         return ResponseEntity.ok(userService.add(createUserRequest));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserRequest updateUserRequest) {
-        return ResponseEntity.ok(userService.update(updateUserRequest,id));
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserRequest updateUserRequest) {
+        return ResponseEntity.ok(userService.update(updateUserRequest, id));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> deactivateUser(@PathVariable("id") Long id) {
-    return ResponseEntity.ok(userService.deactivate(id));
+    public ResponseEntity<UserDto> deactivateUser(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(userService.deactivate(id));
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable("id") Long id){
+    public ResponseEntity<UserDto> deleteUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.delete(id));
     }
 
