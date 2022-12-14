@@ -12,7 +12,7 @@ data class User constructor(
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?,
 
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     val email: String?,
 
     @Column(name = "first_name")

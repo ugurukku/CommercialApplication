@@ -44,13 +44,19 @@ public class UserService {
     }
 
     public UserDto update(UpdateUserRequest updateUserRequest, Long id) {
+
         User user = findUserById(id);
+
+        String newFirstName = updateUserRequest.getFirstName() == null ? user.getFirstName() : updateUserRequest.getFirstName();
+
+        String newLastName = updateUserRequest.getLastName() == null ? user.getLastName() : updateUserRequest.getLastName();
+
         User updatedUser =
                 new User(
                         user.getId(),
                         user.getEmail(),
-                        user.getFirstName(),
-                        updateUserRequest.getLastName(),
+                        newFirstName,
+                        newLastName,
                         user.getPostCode());
 
         return userDtoConverter.convert(userRepository.save(updatedUser));
@@ -66,6 +72,10 @@ public class UserService {
         User user = findUserById(id);
         userRepository.deleteById(id);
         return userDtoConverter.convert(user);
+    }
+
+    public UserDto getByEmail(String email) {
+        return userDtoConverter.convert(userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException("Not found")));
     }
 
     private User findUserById(Long id) {

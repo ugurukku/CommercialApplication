@@ -30,6 +30,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getById(id));
     }
 
+    @GetMapping
+    public ResponseEntity<UserDto> getUserById(@RequestParam(name = "email") String email) {
+        return ResponseEntity.ok(userService.getByEmail(email));
+    }
+
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest createUserRequest) {
         return ResponseEntity.ok(userService.add(createUserRequest));
