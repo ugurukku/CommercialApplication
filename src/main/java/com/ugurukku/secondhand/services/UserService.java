@@ -37,7 +37,7 @@ public class UserService {
                 null,
                 createUserRequest.getEmail(),
                 createUserRequest.getFirstName(),
-                createUserRequest.getLastname(),
+                createUserRequest.getLastName(),
                 createUserRequest.getPostCode()
         );
         return userDtoConverter.convert(userRepository.save(user));
@@ -49,8 +49,8 @@ public class UserService {
                 new User(
                         user.getId(),
                         user.getEmail(),
-                        updateUserRequest.getFirstName(),
-                        updateUserRequest.getLastname(),
+                        user.getFirstName(),
+                        updateUserRequest.getLastName(),
                         user.getPostCode());
 
         return userDtoConverter.convert(userRepository.save(updatedUser));
