@@ -4,5 +4,6 @@ data class UserDto(
     val email: String?,
     val firstName: String?,
     val lastname: String?,
-    val postCode: String?
+    val postCode: String?,
+    val isActive:Boolean?
 )

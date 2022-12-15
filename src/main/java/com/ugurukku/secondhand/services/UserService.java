@@ -5,7 +5,7 @@ import com.ugurukku.secondhand.dto.UpdateUserRequest;
 import com.ugurukku.secondhand.dto.UserDto;
 import com.ugurukku.secondhand.dto.UserDtoConverter;
 import com.ugurukku.secondhand.exceptions.UserNotFoundException;
-import com.ugurukku.secondhand.models.User;
+import com.ugurukku.secondhand.models.UserInformation;
 import com.ugurukku.secondhand.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -33,43 +33,44 @@ public class UserService {
     }
 
     public UserDto add(CreateUserRequest createUserRequest) {
-        User user = new User(
-                null,
+        UserInformation userInformation = new UserInformation(
                 createUserRequest.getEmail(),
                 createUserRequest.getFirstName(),
                 createUserRequest.getLastName(),
-                createUserRequest.getPostCode()
+                createUserRequest.getPostCode(),
+                true
         );
-        return userDtoConverter.convert(userRepository.save(user));
+        return userDtoConverter.convert(userRepository.save(userInformation));
     }
 
     public UserDto update(UpdateUserRequest updateUserRequest, Long id) {
 
-        User user = findUserById(id);
+        UserInformation user = findUserById(id);
 
         String newFirstName = updateUserRequest.getFirstName() == null ? user.getFirstName() : updateUserRequest.getFirstName();
 
         String newLastName = updateUserRequest.getLastName() == null ? user.getLastName() : updateUserRequest.getLastName();
 
-        User updatedUser =
-                new User(
+        UserInformation updatedUserInformation =
+                new UserInformation(
                         user.getId(),
                         user.getEmail(),
                         newFirstName,
                         newLastName,
-                        user.getPostCode());
+                        user.getPostCode(),
+                        user.getActive());
 
-        return userDtoConverter.convert(userRepository.save(updatedUser));
+        return userDtoConverter.convert(userRepository.save(updatedUserInformation));
     }
 
     public UserDto deactivate(Long id) {
-        User user = findUserById(id);
+        UserInformation user = findUserById(id);
         userRepository.deleteById(id);
         return userDtoConverter.convert(user);
     }
 
     public UserDto delete(Long id) {
-        User user = findUserById(id);
+        UserInformation user = findUserById(id);
         userRepository.deleteById(id);
         return userDtoConverter.convert(user);
     }
@@ -78,7 +79,7 @@ public class UserService {
         return userDtoConverter.convert(userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException("Not found")));
     }
 
-    private User findUserById(Long id) {
+    private UserInformation findUserById(Long id) {
         return userRepository
                 .findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found!"));
