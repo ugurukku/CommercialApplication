@@ -81,12 +81,17 @@ public class UserService {
         changeActivityStatus(id, false);
     }
 
+    public void delete(Long id) {
 
+        if (doesUserExist(id)) {
+            userRepository.deleteById(id);
+        } else {
+            throw new UserNotFoundException(String.format("User not found!, id : %s", id));
+        }
+    }
 
-    public UserDto delete(Long id) {
-        UserInformation user = findUserById(id);
-        userRepository.deleteById(id);
-        return userDtoConverter.convert(user);
+    private boolean doesUserExist(Long id) {
+        return userRepository.existsById(id);
     }
 
     private void changeActivityStatus(Long id, Boolean isActive) {
