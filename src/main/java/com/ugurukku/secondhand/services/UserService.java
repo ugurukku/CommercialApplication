@@ -26,7 +26,8 @@ public class UserService {
     }
 
     public List<UserDto> getAll() {
-        return userRepository.findAll().stream().map(userDtoConverter::convert).collect(Collectors.toList());
+        return userDtoConverter.convert(userRepository.findAll());
+
     }
 
     public UserDto getById(Long id) {
