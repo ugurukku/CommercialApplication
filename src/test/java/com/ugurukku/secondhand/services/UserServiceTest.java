@@ -2,6 +2,7 @@ package com.ugurukku.secondhand.services;
 
 
 import com.ugurukku.secondhand.TestSupport;
+import com.ugurukku.secondhand.dto.CreateUserRequest;
 import com.ugurukku.secondhand.dto.UserDto;
 import com.ugurukku.secondhand.dto.UserDtoConverter;
 import com.ugurukku.secondhand.models.UserInformation;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -64,6 +66,27 @@ public class UserServiceTest extends TestSupport {
 
         verify(repository).findUserByEmail("ugur@com");
         verify(converter).convert(userInformation);
+
+    }
+
+    @Test
+    public void testCreateUser_itShouldReturnCreatedUserDto() {
+
+        CreateUserRequest request = new CreateUserRequest("ugur@com", "Ugur", "Kerimov", "AZ1090");
+        UserInformation information = new UserInformation(request.getEmail(), request.getFirstName(), request.getLastName(), request.getPostCode(), false);
+        UserInformation newInformation = new UserInformation(1L,request.getEmail(), request.getFirstName(), request.getLastName(), request.getPostCode(), false);
+
+        UserDto userDto = new UserDto(newInformation.getEmail(), newInformation.getFirstName(),newInformation.getLastName(), newInformation.getPostCode(), newInformation.getActive());
+
+
+        when(repository.save(any(UserInformation.class))).thenReturn(newInformation);
+        when(converter.convert(newInformation)).thenReturn(userDto);
+
+        UserDto result = service.add(request);
+
+        assertEquals(result, userDto);
+        verify(converter).convert(newInformation);
+        verify(repository).save(any(UserInformation.class));
 
     }
 
