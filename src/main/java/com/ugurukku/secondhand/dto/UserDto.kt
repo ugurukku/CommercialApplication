@@ -1,5 +1,6 @@
 package com.ugurukku.secondhand.dto
 
+
 data class UserDto(
     val email: String?,
     val firstName: String?,

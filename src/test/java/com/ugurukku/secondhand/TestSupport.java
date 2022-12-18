@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 @Component
 public class TestSupport {
 
-    public static List<UserInformation> generateUsers() {
+    public  List<UserInformation> generateUsers() {
         return IntStream.range(0, 5).mapToObj(i -> new UserInformation(
                 (long) i,
                 i + "@ukku.az",
@@ -23,7 +23,7 @@ public class TestSupport {
         )).collect(Collectors.toList());
     }
 
-    public static List<UserDto> generateUserDtoList(List<UserInformation> userInformationList) {
+    public  List<UserDto> generateUserDtoList(List<UserInformation> userInformationList) {
         return
                 userInformationList
                         .stream().map(

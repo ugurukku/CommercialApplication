@@ -8,33 +8,30 @@ import com.ugurukku.secondhand.models.UserInformation;
 import com.ugurukku.secondhand.repositories.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest extends TestSupport {
 
     @Mock
     private UserRepository repository;
-
     @Mock
     private UserDtoConverter converter;
 
     @InjectMocks
     private UserService service;
 
-//    @BeforeEach
-//    public void setUp() {
-//        repository = Mockito.mock(UserRepository.class);
-//        converter = Mockito.mock(UserDtoConverter.class);
-//
-//        service = new UserService(repository, converter);
-//    }
 
     @Test
     public void testGetAllUsers_itShouldReturnUserDtoList() {
+
 
         List<UserInformation> userList = generateUsers();
         List<UserDto> userDtoList = generateUserDtoList(userList);
@@ -42,9 +39,11 @@ public class UserServiceTest extends TestSupport {
         Mockito.when(repository.findAll()).thenReturn(userList);
         Mockito.when(converter.convert(userList)).thenReturn(generateUserDtoList(userList));
 
+
+
         List<UserDto> result = service.getAll();
 
-        Assertions.assertEquals(userDtoList, result);
+        Assertions.assertEquals(result,userDtoList);
         Mockito.verify(repository).findAll();
         Mockito.verify(converter).convert(userList);
     }
