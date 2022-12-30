@@ -11,7 +11,7 @@ import com.ugurukku.secondhand.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class UserService {
@@ -29,11 +29,6 @@ public class UserService {
         return userDtoConverter.convert(userRepository.findAll());
 
     }
-
-    public UserDto getById(Long id) {
-        return userDtoConverter.convert(findUserById(id));
-    }
-
 
     public UserDto getByEmail(String email) {
         return userDtoConverter.convert(findUserByEmail(email));
@@ -84,16 +79,11 @@ public class UserService {
 
     public void delete(Long id) {
 
-        if (doesUserExist(id)) {
-            userRepository.deleteById(id);
-        } else {
-            throw new UserNotFoundException(String.format("User not found!, id : %s", id));
-        }
-    }
+        findUserById(id);
 
-    private boolean doesUserExist(Long id) {
-        return userRepository.existsById(id);
-    }
+        userRepository.deleteById(id);
+
+}
 
     private void changeActivityStatus(Long id, Boolean isActive) {
         UserInformation user = findUserById(id);

@@ -1,6 +1,7 @@
 package com.ugurukku.secondhand.models;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class UserInformation {
@@ -62,5 +63,18 @@ public class UserInformation {
 
     public Boolean getActive() {
         return isActive;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserInformation that = (UserInformation) o;
+        return Objects.equals(id, that.id) && Objects.equals(email, that.email) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(postCode, that.postCode) && Objects.equals(isActive, that.isActive);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, firstName, lastName, postCode, isActive);
     }
 }

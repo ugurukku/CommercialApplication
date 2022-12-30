@@ -12,6 +12,8 @@ import java.util.stream.IntStream;
 @Component
 public class TestSupport {
 
+    public static Long userId = 100L;
+
     public List<UserInformation> generateUsers() {
         return IntStream.range(0, 5).mapToObj(i -> new UserInformation(
                 (long) i,
