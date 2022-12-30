@@ -25,17 +25,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(userService.getById(id));
-    }
-
     @GetMapping
-    public ResponseEntity<UserDto> getUserById(@RequestParam(name = "email") String email) {
+    public ResponseEntity<UserDto> getUserByEmail(@RequestParam(name = "email") String email) {
         return ResponseEntity.ok(userService.getByEmail(email));
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest createUserRequest) {
         return ResponseEntity.ok(userService.add(createUserRequest));
     }

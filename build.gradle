@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.13'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
@@ -40,3 +40,4 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
+

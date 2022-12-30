@@ -6,6 +6,7 @@ import com.ugurukku.secondhand.dto.CreateUserRequest;
 import com.ugurukku.secondhand.dto.UpdateUserRequest;
 import com.ugurukku.secondhand.dto.UserDto;
 import com.ugurukku.secondhand.dto.UserDtoConverter;
+import com.ugurukku.secondhand.exceptions.UserNotActiveException;
 import com.ugurukku.secondhand.exceptions.UserNotFoundException;
 import com.ugurukku.secondhand.models.UserInformation;
 import com.ugurukku.secondhand.repositories.UserRepository;
@@ -111,7 +112,7 @@ public class UserServiceTest extends TestSupport {
         String mail = "ugur@com";
 
         UpdateUserRequest request = new UpdateUserRequest("Ugur", "Kerimov");
-        UserInformation information = new UserInformation(1L,mail, request.getFirstName(), request.getLastName(), "AZ1010", true);
+        UserInformation information = new UserInformation(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", true);
 
         UserInformation savedInformation = new UserInformation(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", false);
         UserDto userDto = new UserDto(savedInformation.getEmail(), savedInformation.getFirstName(), savedInformation.getLastName(), savedInformation.getPostCode(), savedInformation.getActive());
@@ -120,7 +121,7 @@ public class UserServiceTest extends TestSupport {
         when(repository.save(any(UserInformation.class))).thenReturn(savedInformation);
         when(converter.convert(savedInformation)).thenReturn(userDto);
 
-        UserDto result = service.update(request,mail);
+        UserDto result = service.update(request, mail);
 
         assertEquals(result, userDto);
         verify(converter).convert(savedInformation);
@@ -129,7 +130,137 @@ public class UserServiceTest extends TestSupport {
 
     }
 
+    @Test
+    public void testUpdateUser_whenUserMailDoesNotExist_itShouldReturnUpdatedUserDto() {
+
+        String mail = "ugur@com";
+
+        UpdateUserRequest request = new UpdateUserRequest("Ugur", "Kerimov");
+
+        when(repository.findUserByEmail(mail)).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () ->
+                service.update(request, mail));
+
+        verify(repository).findUserByEmail(mail);
+        verifyNoMoreInteractions(repository);
+        verifyNoInteractions(converter);
+    }
+
+    @Test
+    public void testUpdateUser_whenUserMailExistsButUserIsNotActive_itShouldReturnUpdatedUserDto() {
+
+        String mail = "ugur@com";
+
+        UpdateUserRequest request = new UpdateUserRequest("Ugur", "Kerimov");
+        UserInformation information = new UserInformation(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", false);
+
+        when(repository.findUserByEmail(mail)).thenReturn(Optional.of(information));
+
+        assertThrows(UserNotActiveException.class, () ->
+                service.update(request, mail)
+        );
+
+        verify(repository).findUserByEmail(mail);
+        verifyNoMoreInteractions(repository);
+        verifyNoInteractions(converter);
+    }
+
+    @Test
+    public void testDeactivateUser_whenUserIdExists_itShouldUpdateUserByActiveFalse() {
+
+        String mail = "ugur@com";
 
 
+        UserInformation information = new UserInformation(
+                userId, mail, "firstName", "lastName", "AZ1010", true);
 
+        UserInformation savedInformation = new UserInformation(
+                userId, mail, "firstName", "lastName", "AZ1010", false);
+
+        when(repository.findById(userId)).thenReturn(Optional.of(information));
+
+        service.deactivate(userId);
+
+        verify(repository).findById(userId);
+        verify(repository).save(savedInformation);
+    }
+
+    @Test
+    public void testDeactivateUser_whenUserIdDoesNotExist_itShouldThrowUserNotFoundException() {
+
+        when(repository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () ->
+                service.deactivate(userId)
+        );
+
+
+        verify(repository).findById(userId);
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    public void testActivateUser_whenUserIdExists_itShouldUpdateUserByActiveTrue() {
+
+        String mail = "ugur@com";
+
+
+        UserInformation information = new UserInformation(
+                userId, mail, "firstName", "lastName", "AZ1010", false);
+
+        UserInformation savedInformation = new UserInformation(
+                userId, mail, "firstName", "lastName", "AZ1010", true);
+
+        when(repository.findById(userId)).thenReturn(Optional.of(information));
+
+        service.activate(userId);
+
+        verify(repository).findById(userId);
+        verify(repository).save(savedInformation);
+    }
+
+    @Test
+    public void testActivateUser_whenUserIdDoesNotExist_itShouldThrowUserNotFoundException() {
+
+        when(repository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () ->
+                service.activate(userId)
+        );
+
+
+        verify(repository).findById(userId);
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    public void testDeleteUser_whenUserIdExists_itShouldDeleteUser() {
+
+        String mail = "ugur@com";
+
+        UserInformation information = new UserInformation(
+                userId, mail, "firstName", "lastName", "AZ1010", false);
+        when(repository.findById(userId)).thenReturn(Optional.of(information));
+
+        service.delete(userId);
+
+
+        verify(repository).findById(userId);
+        verify(repository).deleteById(userId);
+    }
+
+    @Test
+    public void testDeleteUser_whenUserIdDoesNotExist_itShouldThrowUserNotFoundException() {
+
+
+        when(repository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () ->
+                service.delete(userId)
+        );
+
+        verify(repository).findById(userId);
+        verifyNoMoreInteractions(repository);
+    }
 }
