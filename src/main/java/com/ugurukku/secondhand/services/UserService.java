@@ -11,7 +11,7 @@ import com.ugurukku.secondhand.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class UserService {
