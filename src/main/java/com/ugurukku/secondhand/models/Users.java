@@ -2,9 +2,10 @@ package com.ugurukku.secondhand.models;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-public class UserInformation {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +22,13 @@ public class UserInformation {
 
     private Boolean isActive;
 
-    public UserInformation() {
+    @OneToMany(mappedBy = "users",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<UserDetails> userDetailsSet;
+
+    public Users() {
     }
 
-    public UserInformation(Long id, String email, String firstName, String lastName, String postCode, Boolean isActive) {
+    public Users(Long id, String email, String firstName, String lastName, String postCode, Boolean isActive) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
@@ -33,7 +37,7 @@ public class UserInformation {
         this.isActive = isActive;
     }
 
-    public UserInformation(String email, String firstName, String lastName, String postCode, Boolean isActive) {
+    public Users(String email, String firstName, String lastName, String postCode, Boolean isActive) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -69,7 +73,7 @@ public class UserInformation {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserInformation that = (UserInformation) o;
+        Users that = (Users) o;
         return Objects.equals(id, that.id) && Objects.equals(email, that.email) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(postCode, that.postCode) && Objects.equals(isActive, that.isActive);
     }
 

@@ -6,27 +6,27 @@ import com.ugurukku.secondhand.dto.UserDto;
 import com.ugurukku.secondhand.dto.UserDtoConverter;
 import com.ugurukku.secondhand.exceptions.UserNotActiveException;
 import com.ugurukku.secondhand.exceptions.UserNotFoundException;
-import com.ugurukku.secondhand.models.UserInformation;
-import com.ugurukku.secondhand.repositories.UserRepository;
+import com.ugurukku.secondhand.models.Users;
+import com.ugurukku.secondhand.repositories.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
-public class UserService {
+public class UsersService {
 
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
 
     private final UserDtoConverter userDtoConverter;
 
-    public UserService(UserRepository userRepository, UserDtoConverter userDtoConverter) {
-        this.userRepository = userRepository;
+    public UsersService(UsersRepository usersRepository, UserDtoConverter userDtoConverter) {
+        this.usersRepository = usersRepository;
         this.userDtoConverter = userDtoConverter;
     }
 
     public List<UserDto> getAll() {
-        return userDtoConverter.convert(userRepository.findAll());
+        return userDtoConverter.convert(usersRepository.findAll());
 
     }
 
@@ -35,19 +35,19 @@ public class UserService {
     }
 
     public UserDto add(CreateUserRequest createUserRequest) {
-        UserInformation userInformation = new UserInformation(
+        Users users = new Users(
                 createUserRequest.getEmail(),
                 createUserRequest.getFirstName(),
                 createUserRequest.getLastName(),
                 createUserRequest.getPostCode(),
                 true
         );
-        return userDtoConverter.convert(userRepository.save(userInformation));
+        return userDtoConverter.convert(usersRepository.save(users));
     }
 
     public UserDto update(UpdateUserRequest updateUserRequest, String email) {
 
-        UserInformation user = findUserByEmail(email);
+        Users user = findUserByEmail(email);
 
         if (!user.getActive()) {
             throw new UserNotActiveException(String.format("User is not active, email: %s", email));
@@ -57,8 +57,8 @@ public class UserService {
 
         String newLastName = updateUserRequest.getLastName() == null ? user.getLastName() : updateUserRequest.getLastName();
 
-        UserInformation updatedUserInformation =
-                new UserInformation(
+        Users updatedUsers =
+                new Users(
                         user.getId(),
                         user.getEmail(),
                         newFirstName,
@@ -66,7 +66,7 @@ public class UserService {
                         user.getPostCode(),
                         user.getActive());
 
-        return userDtoConverter.convert(userRepository.save(updatedUserInformation));
+        return userDtoConverter.convert(usersRepository.save(updatedUsers));
     }
 
     public void activate(Long id) {
@@ -81,31 +81,31 @@ public class UserService {
 
         findUserById(id);
 
-        userRepository.deleteById(id);
+        usersRepository.deleteById(id);
 
 }
 
     private void changeActivityStatus(Long id, Boolean isActive) {
-        UserInformation user = findUserById(id);
+        Users user = findUserById(id);
 
-        UserInformation deactivatedUser = new UserInformation(
+        Users deactivatedUser = new Users(
                 user.getId(),
                 user.getEmail(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPostCode(),
                 isActive);
-        userRepository.save(deactivatedUser);
+        usersRepository.save(deactivatedUser);
     }
 
-    private UserInformation findUserByEmail(String email) {
-        return userRepository
+    private Users findUserByEmail(String email) {
+        return usersRepository
                 .findUserByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(String.format("User not found! , email : %s", email)));
     }
 
-    private UserInformation findUserById(Long id) {
-        return userRepository
+    private Users findUserById(Long id) {
+        return usersRepository
                 .findById(id)
                 .orElseThrow(() -> new UserNotFoundException(String.format("User not found! , id : %s", id)));
     }
