@@ -47,6 +47,11 @@ public class UserDetailsService {
         return detailsDtoConverter.convert(detailsRepository.save(updateUserDetails));
     }
 
+    public void deleteUserDetails(final Long id){
+        findUserDetailsById(id);
+        detailsRepository.deleteById(id);
+    }
+
     private UserDetails findUserDetailsById(final Long userDetailsId) {
         return detailsRepository.findById(userDetailsId)
                 .orElseThrow(() -> new UserDetailsNotFoundException(

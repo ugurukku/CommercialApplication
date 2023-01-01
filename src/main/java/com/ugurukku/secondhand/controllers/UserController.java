@@ -30,7 +30,7 @@ public class UserController {
         return ResponseEntity.ok(usersService.getByEmail(email));
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest createUserRequest) {
         return ResponseEntity.ok(usersService.createUser(createUserRequest));
     }
