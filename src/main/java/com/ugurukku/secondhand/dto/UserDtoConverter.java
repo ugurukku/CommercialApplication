@@ -22,7 +22,7 @@ public class UserDtoConverter {
                 from.getLastName(),
                 from.getPostCode(),
                 from.getActive(),
-                detailsDtoConverter.convert(new ArrayList<>(from.getUserDetailsSet())));
+                from.getUserDetailsSet() != null?detailsDtoConverter.convert(new ArrayList<>(from.getUserDetailsSet())):null);
     }
 
     public List<UserDto> convert(List<Users> fromList) {
