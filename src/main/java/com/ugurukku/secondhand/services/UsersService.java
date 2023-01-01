@@ -34,7 +34,7 @@ public class UsersService {
         return userDtoConverter.convert(findUserByEmail(email));
     }
 
-    public UserDto add(CreateUserRequest createUserRequest) {
+    public UserDto createUser(final CreateUserRequest createUserRequest) {
         Users users = new Users(
                 createUserRequest.getEmail(),
                 createUserRequest.getFirstName(),
@@ -45,7 +45,7 @@ public class UsersService {
         return userDtoConverter.convert(usersRepository.save(users));
     }
 
-    public UserDto update(UpdateUserRequest updateUserRequest, String email) {
+    public UserDto update(final UpdateUserRequest updateUserRequest,final String email) {
 
         Users user = findUserByEmail(email);
 
@@ -53,27 +53,23 @@ public class UsersService {
             throw new UserNotActiveException(String.format("User is not active, email: %s", email));
         }
 
-        String newFirstName = updateUserRequest.getFirstName() == null ? user.getFirstName() : updateUserRequest.getFirstName();
-
-        String newLastName = updateUserRequest.getLastName() == null ? user.getLastName() : updateUserRequest.getLastName();
-
         Users updatedUsers =
                 new Users(
                         user.getId(),
                         user.getEmail(),
-                        newFirstName,
-                        newLastName,
+                        updateUserRequest.getFirstName(),
+                        updateUserRequest.getLastName(),
                         user.getPostCode(),
                         user.getActive());
 
         return userDtoConverter.convert(usersRepository.save(updatedUsers));
     }
 
-    public void activate(Long id) {
+    public void activate(final Long id) {
         changeActivityStatus(id, true);
     }
 
-    public void deactivate(Long id) {
+    public void deactivate(final Long id) {
         changeActivityStatus(id, false);
     }
 
@@ -85,7 +81,7 @@ public class UsersService {
 
 }
 
-    private void changeActivityStatus(Long id, Boolean isActive) {
+    private void changeActivityStatus(final Long id,final Boolean isActive) {
         Users user = findUserById(id);
 
         Users deactivatedUser = new Users(
@@ -98,13 +94,13 @@ public class UsersService {
         usersRepository.save(deactivatedUser);
     }
 
-    private Users findUserByEmail(String email) {
+    private Users findUserByEmail(final String email) {
         return usersRepository
                 .findUserByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(String.format("User not found! , email : %s", email)));
     }
 
-    private Users findUserById(Long id) {
+    protected Users findUserById(final Long id) {
         return usersRepository
                 .findById(id)
                 .orElseThrow(() -> new UserNotFoundException(String.format("User not found! , id : %s", id)));

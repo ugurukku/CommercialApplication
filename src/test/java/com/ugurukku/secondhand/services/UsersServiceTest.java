@@ -97,7 +97,7 @@ public class UsersServiceTest extends TestSupport {
         when(repository.save(any(Users.class))).thenReturn(newInformation);
         when(converter.convert(newInformation)).thenReturn(userDto);
 
-        UserDto result = service.add(request);
+        UserDto result = service.createUser(request);
 
         assertEquals(result, userDto);
         verify(converter).convert(newInformation);
