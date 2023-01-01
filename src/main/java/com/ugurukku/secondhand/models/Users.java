@@ -45,6 +45,16 @@ public class Users {
         this.isActive = isActive;
     }
 
+    public Users(Long id, String email, String firstName, String lastName, String postCode, Boolean isActive, Set<UserDetails> userDetailsSet) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.postCode = postCode;
+        this.isActive = isActive;
+        this.userDetailsSet = userDetailsSet;
+    }
+
     public Long getId() {
         return id;
     }
@@ -67,6 +77,10 @@ public class Users {
 
     public Boolean getActive() {
         return isActive;
+    }
+
+    public Set<UserDetails> getUserDetailsSet() {
+        return userDetailsSet;
     }
 
     @Override

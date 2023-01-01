@@ -28,6 +28,18 @@ public class UserDetails {
         this.users = users;
     }
 
+    public UserDetails(String phoneNumber, String address, String city, String country, Users users) {
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.users = users;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
     public UserDetails() {
 
     }
