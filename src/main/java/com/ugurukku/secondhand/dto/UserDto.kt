@@ -6,5 +6,6 @@ data class UserDto(
     val firstName: String?,
     val lastname: String?,
     val postCode: String?,
-    val isActive:Boolean?
+    val isActive:Boolean?,
+    val userDetails:List<UserDetailsDto>
 )

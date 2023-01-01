@@ -7,6 +7,7 @@ import com.ugurukku.secondhand.services.UserDetailsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RestController
 @RequestMapping("/v1/userDetails")
 public class UserDetailsController {
 
