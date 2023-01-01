@@ -8,8 +8,8 @@ import com.ugurukku.secondhand.dto.UserDto;
 import com.ugurukku.secondhand.dto.UserDtoConverter;
 import com.ugurukku.secondhand.exceptions.UserNotActiveException;
 import com.ugurukku.secondhand.exceptions.UserNotFoundException;
-import com.ugurukku.secondhand.models.UserInformation;
-import com.ugurukku.secondhand.repositories.UserRepository;
+import com.ugurukku.secondhand.models.Users;
+import com.ugurukku.secondhand.repositories.UsersRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -26,20 +26,20 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest extends TestSupport {
+public class UsersServiceTest extends TestSupport {
 
     @Mock
-    private UserRepository repository;
+    private UsersRepository repository;
     @Mock
     private UserDtoConverter converter;
 
     @InjectMocks
-    private UserService service;
+    private UsersService service;
 
 
     @Test
     public void testGetAllUsers_itShouldReturnUserDtoList() {
-        List<UserInformation> userList = generateUsers();
+        List<Users> userList = generateUsers();
         List<UserDto> userDtoList = generateUserDtoList(userList);
 
         when(repository.findAll()).thenReturn(userList);
@@ -56,11 +56,11 @@ public class UserServiceTest extends TestSupport {
     @Test
     public void testGetByEmail_whenUserMailExists_itShouldReturnUserDto() {
 
-        UserInformation userInformation = generateUserInformation();
-        UserDto userDto = generateUserDto(userInformation);
+        Users users = generateUserInformation();
+        UserDto userDto = generateUserDto(users);
 
-        when(repository.findUserByEmail("ugur@com")).thenReturn(Optional.of(userInformation));
-        when(converter.convert(userInformation)).thenReturn(userDto);
+        when(repository.findUserByEmail("ugur@com")).thenReturn(Optional.of(users));
+        when(converter.convert(users)).thenReturn(userDto);
 
         UserDto result = service.getByEmail("ugur@com");
 
@@ -68,7 +68,7 @@ public class UserServiceTest extends TestSupport {
 
 
         verify(repository).findUserByEmail("ugur@com");
-        verify(converter).convert(userInformation);
+        verify(converter).convert(users);
 
     }
 
@@ -89,19 +89,19 @@ public class UserServiceTest extends TestSupport {
     public void testCreateUser_itShouldReturnCreatedUserDto() {
 
         CreateUserRequest request = new CreateUserRequest("ugur@com", "Ugur", "Kerimov", "AZ1090");
-        UserInformation newInformation = new UserInformation(1L, request.getEmail(), request.getFirstName(), request.getLastName(), request.getPostCode(), false);
+        Users newInformation = new Users(1L, request.getEmail(), request.getFirstName(), request.getLastName(), request.getPostCode(), false);
 
         UserDto userDto = new UserDto(newInformation.getEmail(), newInformation.getFirstName(), newInformation.getLastName(), newInformation.getPostCode(), newInformation.getActive());
 
 
-        when(repository.save(any(UserInformation.class))).thenReturn(newInformation);
+        when(repository.save(any(Users.class))).thenReturn(newInformation);
         when(converter.convert(newInformation)).thenReturn(userDto);
 
         UserDto result = service.add(request);
 
         assertEquals(result, userDto);
         verify(converter).convert(newInformation);
-        verify(repository).save(any(UserInformation.class
+        verify(repository).save(any(Users.class
         ));
 
     }
@@ -112,20 +112,20 @@ public class UserServiceTest extends TestSupport {
         String mail = "ugur@com";
 
         UpdateUserRequest request = new UpdateUserRequest("Ugur", "Kerimov");
-        UserInformation information = new UserInformation(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", true);
+        Users information = new Users(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", true);
 
-        UserInformation savedInformation = new UserInformation(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", false);
+        Users savedInformation = new Users(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", false);
         UserDto userDto = new UserDto(savedInformation.getEmail(), savedInformation.getFirstName(), savedInformation.getLastName(), savedInformation.getPostCode(), savedInformation.getActive());
 
         when(repository.findUserByEmail(mail)).thenReturn(Optional.of(information));
-        when(repository.save(any(UserInformation.class))).thenReturn(savedInformation);
+        when(repository.save(any(Users.class))).thenReturn(savedInformation);
         when(converter.convert(savedInformation)).thenReturn(userDto);
 
         UserDto result = service.update(request, mail);
 
         assertEquals(result, userDto);
         verify(converter).convert(savedInformation);
-        verify(repository).save(any(UserInformation.class
+        verify(repository).save(any(Users.class
         ));
 
     }
@@ -153,7 +153,7 @@ public class UserServiceTest extends TestSupport {
         String mail = "ugur@com";
 
         UpdateUserRequest request = new UpdateUserRequest("Ugur", "Kerimov");
-        UserInformation information = new UserInformation(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", false);
+        Users information = new Users(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", false);
 
         when(repository.findUserByEmail(mail)).thenReturn(Optional.of(information));
 
@@ -172,10 +172,10 @@ public class UserServiceTest extends TestSupport {
         String mail = "ugur@com";
 
 
-        UserInformation information = new UserInformation(
+        Users information = new Users(
                 userId, mail, "firstName", "lastName", "AZ1010", true);
 
-        UserInformation savedInformation = new UserInformation(
+        Users savedInformation = new Users(
                 userId, mail, "firstName", "lastName", "AZ1010", false);
 
         when(repository.findById(userId)).thenReturn(Optional.of(information));
@@ -206,10 +206,10 @@ public class UserServiceTest extends TestSupport {
         String mail = "ugur@com";
 
 
-        UserInformation information = new UserInformation(
+        Users information = new Users(
                 userId, mail, "firstName", "lastName", "AZ1010", false);
 
-        UserInformation savedInformation = new UserInformation(
+        Users savedInformation = new Users(
                 userId, mail, "firstName", "lastName", "AZ1010", true);
 
         when(repository.findById(userId)).thenReturn(Optional.of(information));
@@ -239,7 +239,7 @@ public class UserServiceTest extends TestSupport {
 
         String mail = "ugur@com";
 
-        UserInformation information = new UserInformation(
+        Users information = new Users(
                 userId, mail, "firstName", "lastName", "AZ1010", false);
         when(repository.findById(userId)).thenReturn(Optional.of(information));
 

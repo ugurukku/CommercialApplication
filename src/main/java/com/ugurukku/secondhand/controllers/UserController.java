@@ -3,7 +3,7 @@ package com.ugurukku.secondhand.controllers;
 import com.ugurukku.secondhand.dto.CreateUserRequest;
 import com.ugurukku.secondhand.dto.UpdateUserRequest;
 import com.ugurukku.secondhand.dto.UserDto;
-import com.ugurukku.secondhand.services.UserService;
+import com.ugurukku.secondhand.services.UsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,48 +13,48 @@ import java.util.List;
 @RequestMapping("/v1/user")
 public class UserController {
 
-    private final UserService userService;
+    private final UsersService usersService;
 
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UsersService usersService) {
+        this.usersService = usersService;
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAll());
+        return ResponseEntity.ok(usersService.getAll());
     }
 
     @GetMapping
     public ResponseEntity<UserDto> getUserByEmail(@RequestParam(name = "email") String email) {
-        return ResponseEntity.ok(userService.getByEmail(email));
+        return ResponseEntity.ok(usersService.getByEmail(email));
     }
 
     @PostMapping("/add")
     public ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest createUserRequest) {
-        return ResponseEntity.ok(userService.add(createUserRequest));
+        return ResponseEntity.ok(usersService.add(createUserRequest));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable("id") String email, @RequestBody UpdateUserRequest updateUserRequest) {
-        return ResponseEntity.ok(userService.update(updateUserRequest, email));
+        return ResponseEntity.ok(usersService.update(updateUserRequest, email));
     }
 
     @PatchMapping("/deactivate/{id}")
     public ResponseEntity<Void> deactivateUser(@PathVariable("id") Long id) {
-        userService.deactivate(id);
+        usersService.deactivate(id);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/activate/{id}")
     public ResponseEntity<Void> activateUser(@PathVariable("id") Long id) {
-        userService.activate(id);
+        usersService.activate(id);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
-        userService.delete(id);
+        usersService.delete(id);
         return ResponseEntity.ok().build();
     }
 

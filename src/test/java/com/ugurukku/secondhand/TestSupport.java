@@ -1,7 +1,7 @@
 package com.ugurukku.secondhand;
 
 import com.ugurukku.secondhand.dto.UserDto;
-import com.ugurukku.secondhand.models.UserInformation;
+import com.ugurukku.secondhand.models.Users;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,8 +14,8 @@ public class TestSupport {
 
     public static Long userId = 100L;
 
-    public List<UserInformation> generateUsers() {
-        return IntStream.range(0, 5).mapToObj(i -> new UserInformation(
+    public List<Users> generateUsers() {
+        return IntStream.range(0, 5).mapToObj(i -> new Users(
                 (long) i,
                 i + "@ukku.az",
                 "firstName" + i,
@@ -25,9 +25,9 @@ public class TestSupport {
         )).collect(Collectors.toList());
     }
 
-    public List<UserDto> generateUserDtoList(List<UserInformation> userInformationList) {
+    public List<UserDto> generateUserDtoList(List<Users> usersList) {
         return
-                userInformationList
+                usersList
                         .stream().map(
                                 from -> new UserDto(
                                         from.getEmail(),
@@ -38,17 +38,17 @@ public class TestSupport {
 
     }
 
-    public UserInformation generateUserInformation() {
-        return new UserInformation("ugur@com", "Ugur", "Kerimov", "AZ1010", true);
+    public Users generateUserInformation() {
+        return new Users("ugur@com", "Ugur", "Kerimov", "AZ1010", true);
     }
 
-    public UserDto generateUserDto(UserInformation userInformation) {
+    public UserDto generateUserDto(Users users) {
         return new UserDto(
-                userInformation.getEmail(),
-                userInformation.getFirstName(),
-                userInformation.getLastName(),
-                userInformation.getPostCode(),
-                userInformation.getActive());
+                users.getEmail(),
+                users.getFirstName(),
+                users.getLastName(),
+                users.getPostCode(),
+                users.getActive());
     }
 
 }
