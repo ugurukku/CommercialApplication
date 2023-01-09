@@ -91,7 +91,7 @@ public class UsersServiceTest extends TestSupport {
         CreateUserRequest request = new CreateUserRequest("ugur@com", "Ugur", "Kerimov", "AZ1090");
         Users newInformation = new Users(1L, request.getEmail(), request.getFirstName(), request.getLastName(), request.getPostCode(), false);
 
-        UserDto userDto = new UserDto(newInformation.getEmail(), newInformation.getFirstName(), newInformation.getLastName(), newInformation.getPostCode(), newInformation.getActive());
+        UserDto userDto = new UserDto(newInformation.getEmail(), newInformation.getFirstName(), newInformation.getLastName(), newInformation.getPostCode(), newInformation.getActive(),null);
 
 
         when(repository.save(any(Users.class))).thenReturn(newInformation);
@@ -115,7 +115,7 @@ public class UsersServiceTest extends TestSupport {
         Users information = new Users(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", true);
 
         Users savedInformation = new Users(1L, mail, request.getFirstName(), request.getLastName(), "AZ1010", false);
-        UserDto userDto = new UserDto(savedInformation.getEmail(), savedInformation.getFirstName(), savedInformation.getLastName(), savedInformation.getPostCode(), savedInformation.getActive());
+        UserDto userDto = new UserDto(savedInformation.getEmail(), savedInformation.getFirstName(), savedInformation.getLastName(), savedInformation.getPostCode(), savedInformation.getActive(),null);
 
         when(repository.findUserByEmail(mail)).thenReturn(Optional.of(information));
         when(repository.save(any(Users.class))).thenReturn(savedInformation);

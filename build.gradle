@@ -7,7 +7,7 @@ plugins {
 
 group = 'com.ugurukku'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -19,7 +19,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
-    implementation 'org.springframework.data:spring-data-elasticsearch:5.0.0'
+    implementation group: 'org.springframework.data', name: 'spring-data-elasticsearch', version: '4.4.0'
+    implementation group: 'jakarta.json', name: 'jakarta.json-api', version: '2.1.1'
     testImplementation 'org.testng:testng:7.7.0'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
@@ -41,4 +42,3 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
-

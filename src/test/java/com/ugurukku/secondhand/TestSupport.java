@@ -34,7 +34,8 @@ public class TestSupport {
                                         from.getFirstName(),
                                         from.getLastName(),
                                         from.getPostCode(),
-                                        from.getActive())).collect(Collectors.toList());
+                                        from.getActive(),
+                                        null)).collect(Collectors.toList());
 
     }
 
@@ -48,7 +49,8 @@ public class TestSupport {
                 users.getFirstName(),
                 users.getLastName(),
                 users.getPostCode(),
-                users.getActive());
+                users.getActive(),
+                null);
     }
 
 }
