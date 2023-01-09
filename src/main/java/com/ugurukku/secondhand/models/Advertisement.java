@@ -1,10 +1,12 @@
 package com.ugurukku.secondhand.models;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.Instant;
 import java.util.Date;
@@ -14,7 +16,8 @@ import java.util.UUID;
 public class Advertisement {
 
     @Id
-    @Field(type = FieldType.Keyword)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID",strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
     @Field(type = FieldType.Keyword)
@@ -46,7 +49,7 @@ public class Advertisement {
 
     public Advertisement(String title, String description, Double price) {
 
-        this(UUID.randomUUID().toString(),title, description, price, Date.from(Instant.now()), Date.from(Instant.now()));
+        this(title, description, price, Date.from(Instant.now()), Date.from(Instant.now()));
 
     }
 
