@@ -14,7 +14,7 @@ public interface AdvertisementElasticSearchRepository extends ElasticsearchRepos
 
     Page<Advertisement> findAdvertisementsByTitleLikeIgnoreCase(String title,Pageable pageable);
 
-    @Query("{\"match\": {\"title\": {\"query\": \"?0\"}}}")
+    @Query("{\"match\": {\"title\": {\"query\": \"?0\",\"fuzziness\":\"AUTO\"}}}")
     Page<Advertisement> findAdvertisementsByTitleFuzzy(String title,Pageable pageable);
 
 }
