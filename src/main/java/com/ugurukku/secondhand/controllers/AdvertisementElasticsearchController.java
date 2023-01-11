@@ -1,7 +1,7 @@
 package com.ugurukku.secondhand.controllers;
 
 
-import com.ugurukku.secondhand.dto.AdDto;
+import com.ugurukku.secondhand.dto.AdvertisementDto;
 import com.ugurukku.secondhand.models.Advertisement;
 import com.ugurukku.secondhand.repositories.AdvertisementElasticSearchRepository;
 import org.springframework.data.domain.Page;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/ad")
-public class AdvertisementController {
+public class AdvertisementElasticsearchController {
 
     private final AdvertisementElasticSearchRepository repository;
 
-    public AdvertisementController(AdvertisementElasticSearchRepository repository) {
+    public AdvertisementElasticsearchController(AdvertisementElasticSearchRepository repository) {
         this.repository = repository;
     }
 
@@ -32,13 +32,13 @@ public class AdvertisementController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Advertisement> add(@RequestBody AdDto advertisement) {
+    public ResponseEntity<Advertisement> add(@RequestBody AdvertisementDto advertisement) {
         return ResponseEntity
                 .ok(repository
                         .save(
                                 new Advertisement(advertisement.title(),
                                         advertisement.description(),
-                                        advertisement.price())));
+                                        advertisement.price(),advertisement.userId(),advertisement.hashtags())));
     }
 
     @GetMapping("/all")
