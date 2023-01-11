@@ -2,8 +2,10 @@ package com.ugurukku.secondhand;
 
 import com.ugurukku.secondhand.dto.UserDto;
 import com.ugurukku.secondhand.models.Users;
+import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -35,7 +37,7 @@ public class TestSupport {
                                         from.getLastName(),
                                         from.getPostCode(),
                                         from.getActive(),
-                                        null)).collect(Collectors.toList());
+                                        new ArrayList<>())).collect(Collectors.toList());
 
     }
 
@@ -50,7 +52,7 @@ public class TestSupport {
                 users.getLastName(),
                 users.getPostCode(),
                 users.getActive(),
-                null);
+                new ArrayList<>());
     }
 
 }
