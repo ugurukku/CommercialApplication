@@ -45,7 +45,7 @@ public class UsersService {
         return userDtoConverter.convert(usersRepository.save(users));
     }
 
-    public UserDto update(final UpdateUserRequest updateUserRequest,final String email) {
+    public UserDto update(final UpdateUserRequest updateUserRequest, final String email) {
 
         Users user = findUserByEmail(email);
 
@@ -79,9 +79,9 @@ public class UsersService {
 
         usersRepository.deleteById(id);
 
-}
+    }
 
-    private void changeActivityStatus(final Long id,final Boolean isActive) {
+    private void changeActivityStatus(final Long id, final Boolean isActive) {
         Users user = findUserById(id);
 
         Users deactivatedUser = new Users(
@@ -106,5 +106,8 @@ public class UsersService {
                 .orElseThrow(() -> new UserNotFoundException(String.format("User not found! , id : %s", id)));
     }
 
+    public Boolean isUserIdExist(Long id) {
+        return usersRepository.existsById(id);
+    }
 }
 

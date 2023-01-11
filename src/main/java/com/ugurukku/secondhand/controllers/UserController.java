@@ -30,6 +30,11 @@ public class UserController {
         return ResponseEntity.ok(usersService.getByEmail(email));
     }
 
+    @GetMapping("/exist/{id}")
+    public ResponseEntity<Boolean> isUserIdExist(@PathVariable("id") Long id){
+        return ResponseEntity.ok(usersService.isUserIdExist(id));
+    }
+
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest createUserRequest) {
         return ResponseEntity.ok(usersService.createUser(createUserRequest));
