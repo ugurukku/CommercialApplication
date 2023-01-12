@@ -1,10 +1,11 @@
-package com.ugurukku.secondhand.services;
+package com.ugurukku.secondhand.advertisement.services;
 
-import com.ugurukku.secondhand.dto.AdvertisementDto;
-import com.ugurukku.secondhand.dto.AdvertisementDtoConverter;
-import com.ugurukku.secondhand.dto.CreateAdvertisementRequest;
-import com.ugurukku.secondhand.models.Advertisement;
-import com.ugurukku.secondhand.repositories.AdvertisementRepository;
+
+import com.ugurukku.secondhand.advertisement.dto.AdvertisementDto;
+import com.ugurukku.secondhand.advertisement.dto.AdvertisementDtoConverter;
+import com.ugurukku.secondhand.advertisement.dto.CreateAdvertisementRequest;
+import com.ugurukku.secondhand.advertisement.models.Advertisement;
+import com.ugurukku.secondhand.advertisement.repositories.AdvertisementRepository;
 import org.springframework.stereotype.Service;
 
 @Service
