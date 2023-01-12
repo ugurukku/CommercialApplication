@@ -1,9 +1,9 @@
-package com.ugurukku.secondhand.controllers;
+package com.ugurukku.secondhand.advertisement.controllers;
 
 
-import com.ugurukku.secondhand.dto.AdvertisementDto;
-import com.ugurukku.secondhand.models.Advertisement;
-import com.ugurukku.secondhand.repositories.AdvertisementElasticSearchRepository;
+import com.ugurukku.secondhand.advertisement.dto.AdvertisementDto;
+import com.ugurukku.secondhand.advertisement.models.Advertisement;
+import com.ugurukku.secondhand.advertisement.repositories.AdvertisementElasticSearchRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class AdvertisementElasticsearchController {
     @GetMapping("/byTitle")
     public Page<Advertisement> getByTitle(@RequestParam(name = "title") String title) {
         System.out.println(title);
-        return repository.findAdvertisementsByTitleFuzzy(title, Pageable.unpaged());
+        return repository.findAdvertisementsByTitleLikeIgnoreCase(title, Pageable.unpaged());
 
     }@GetMapping("/byDesc")
     public Page<Advertisement> getByDesc(@RequestParam(name = "desc") String desc) {

@@ -1,6 +1,6 @@
-package com.ugurukku.secondhand.dto;
+package com.ugurukku.secondhand.advertisement.dto;
 
-import com.ugurukku.secondhand.models.Advertisement;
+import com.ugurukku.secondhand.advertisement.models.Advertisement;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;

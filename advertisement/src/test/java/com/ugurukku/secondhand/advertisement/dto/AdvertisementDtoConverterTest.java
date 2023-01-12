@@ -1,7 +1,7 @@
-package com.ugurukku.secondhand.dto;
+package com.ugurukku.secondhand.advertisement.dto;
 
 
-import com.ugurukku.secondhand.models.Advertisement;
+import com.ugurukku.secondhand.advertisement.models.Advertisement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
