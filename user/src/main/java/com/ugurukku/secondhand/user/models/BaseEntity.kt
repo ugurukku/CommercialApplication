@@ -1,4 +1,4 @@
-package com.ugurukku.secondhand.models
+package com.ugurukku.secondhand.user.models
 
 import java.time.LocalDateTime
 
