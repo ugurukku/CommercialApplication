@@ -1,4 +1,4 @@
-package com.ugurukku.secondhand.models;
+package com.ugurukku.secondhand.advertisement.models;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
@@ -10,13 +10,13 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.Instant;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity(name = "advertisement")
 @Document(indexName = "advertisements")
-public class Advertisement {
+public class Advertisement implements Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID")
