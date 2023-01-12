@@ -1,13 +1,14 @@
-package com.ugurukku.secondhand.services;
+package com.ugurukku.secondhand.user.services;
 
-import com.ugurukku.secondhand.dto.CreateUserRequest;
-import com.ugurukku.secondhand.dto.UpdateUserRequest;
-import com.ugurukku.secondhand.dto.UserDto;
-import com.ugurukku.secondhand.dto.UserDtoConverter;
-import com.ugurukku.secondhand.exceptions.UserNotActiveException;
-import com.ugurukku.secondhand.exceptions.UserNotFoundException;
-import com.ugurukku.secondhand.models.Users;
-import com.ugurukku.secondhand.repositories.UsersRepository;
+
+import com.ugurukku.secondhand.user.dto.CreateUserRequest;
+import com.ugurukku.secondhand.user.dto.UpdateUserRequest;
+import com.ugurukku.secondhand.user.dto.UserDto;
+import com.ugurukku.secondhand.user.dto.UserDtoConverter;
+import com.ugurukku.secondhand.user.exceptions.UserNotActiveException;
+import com.ugurukku.secondhand.user.exceptions.UserNotFoundException;
+import com.ugurukku.secondhand.user.models.Users;
+import com.ugurukku.secondhand.user.repositories.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

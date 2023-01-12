@@ -1,21 +1,23 @@
-package com.ugurukku.secondhand.services;
+package com.ugurukku.secondhand.user.services;
 
 
-import com.ugurukku.secondhand.TestSupport;
-import com.ugurukku.secondhand.dto.CreateUserRequest;
-import com.ugurukku.secondhand.dto.UpdateUserRequest;
-import com.ugurukku.secondhand.dto.UserDto;
-import com.ugurukku.secondhand.dto.UserDtoConverter;
-import com.ugurukku.secondhand.exceptions.UserNotActiveException;
-import com.ugurukku.secondhand.exceptions.UserNotFoundException;
-import com.ugurukku.secondhand.models.Users;
-import com.ugurukku.secondhand.repositories.UsersRepository;
+
+import com.ugurukku.secondhand.user.TestSupport;
+import com.ugurukku.secondhand.user.dto.CreateUserRequest;
+import com.ugurukku.secondhand.user.dto.UpdateUserRequest;
+import com.ugurukku.secondhand.user.dto.UserDto;
+import com.ugurukku.secondhand.user.dto.UserDtoConverter;
+import com.ugurukku.secondhand.user.exceptions.UserNotActiveException;
+import com.ugurukku.secondhand.user.exceptions.UserNotFoundException;
+import com.ugurukku.secondhand.user.models.Users;
+import com.ugurukku.secondhand.user.repositories.UsersRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -173,30 +175,30 @@ public class UsersServiceTest extends TestSupport {
 
 
         Users information = new Users(
-                userId, mail, "firstName", "lastName", "AZ1010", true);
+                TestSupport.userId, mail, "firstName", "lastName", "AZ1010", true);
 
         Users savedInformation = new Users(
-                userId, mail, "firstName", "lastName", "AZ1010", false);
+                TestSupport.userId, mail, "firstName", "lastName", "AZ1010", false);
 
-        when(repository.findById(userId)).thenReturn(Optional.of(information));
+        when(repository.findById(TestSupport.userId)).thenReturn(Optional.of(information));
 
-        service.deactivate(userId);
+        service.deactivate(TestSupport.userId);
 
-        verify(repository).findById(userId);
+        verify(repository).findById(TestSupport.userId);
         verify(repository).save(savedInformation);
     }
 
     @Test
     public void testDeactivateUser_whenUserIdDoesNotExist_itShouldThrowUserNotFoundException() {
 
-        when(repository.findById(userId)).thenReturn(Optional.empty());
+        when(repository.findById(TestSupport.userId)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () ->
-                service.deactivate(userId)
+                service.deactivate(TestSupport.userId)
         );
 
 
-        verify(repository).findById(userId);
+        verify(repository).findById(TestSupport.userId);
         verifyNoMoreInteractions(repository);
     }
 
@@ -207,30 +209,30 @@ public class UsersServiceTest extends TestSupport {
 
 
         Users information = new Users(
-                userId, mail, "firstName", "lastName", "AZ1010", false);
+                TestSupport.userId, mail, "firstName", "lastName", "AZ1010", false);
 
         Users savedInformation = new Users(
-                userId, mail, "firstName", "lastName", "AZ1010", true);
+                TestSupport.userId, mail, "firstName", "lastName", "AZ1010", true);
 
-        when(repository.findById(userId)).thenReturn(Optional.of(information));
+        when(repository.findById(TestSupport.userId)).thenReturn(Optional.of(information));
 
-        service.activate(userId);
+        service.activate(TestSupport.userId);
 
-        verify(repository).findById(userId);
+        verify(repository).findById(TestSupport.userId);
         verify(repository).save(savedInformation);
     }
 
     @Test
     public void testActivateUser_whenUserIdDoesNotExist_itShouldThrowUserNotFoundException() {
 
-        when(repository.findById(userId)).thenReturn(Optional.empty());
+        when(repository.findById(TestSupport.userId)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () ->
-                service.activate(userId)
+                service.activate(TestSupport.userId)
         );
 
 
-        verify(repository).findById(userId);
+        verify(repository).findById(TestSupport.userId);
         verifyNoMoreInteractions(repository);
     }
 
@@ -240,27 +242,27 @@ public class UsersServiceTest extends TestSupport {
         String mail = "ugur@com";
 
         Users information = new Users(
-                userId, mail, "firstName", "lastName", "AZ1010", false);
-        when(repository.findById(userId)).thenReturn(Optional.of(information));
+                TestSupport.userId, mail, "firstName", "lastName", "AZ1010", false);
+        when(repository.findById(TestSupport.userId)).thenReturn(Optional.of(information));
 
-        service.delete(userId);
+        service.delete(TestSupport.userId);
 
 
-        verify(repository).findById(userId);
-        verify(repository).deleteById(userId);
+        verify(repository).findById(TestSupport.userId);
+        verify(repository).deleteById(TestSupport.userId);
     }
 
     @Test
     public void testDeleteUser_whenUserIdDoesNotExist_itShouldThrowUserNotFoundException() {
 
 
-        when(repository.findById(userId)).thenReturn(Optional.empty());
+        when(repository.findById(TestSupport.userId)).thenReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () ->
-                service.delete(userId)
+                service.delete(TestSupport.userId)
         );
 
-        verify(repository).findById(userId);
+        verify(repository).findById(TestSupport.userId);
         verifyNoMoreInteractions(repository);
     }
 }
